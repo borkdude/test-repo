@@ -40,9 +40,11 @@
       :body
       (cheshire/parse-string true)))
 
-(defn draft-release-for [{:keys [:tag] :as opts}]
+(defn -draft-release-for [{:keys [:tag] :as opts}]
   (or (get-draft-release tag)
       (create-draft-release opts)))
+
+(def draft-release-for (memoize -draft-release-for))
 
 (defn list-assets [opts]
   (let [release (draft-release-for opts)]
